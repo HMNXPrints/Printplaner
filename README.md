@@ -1,6 +1,7 @@
 # Printplaner - Schedule your 3D prints!
 
 Printplaner is a browser-based utility to modify `.gcode.3mf` files. It allows you to easily inject a custom start delay and turn off the vibration test without uploading files to any external server.
+While optimized for Bambu Lab, it may also work with other slicers and printer models.
 
 [![Open in Browser](https://img.shields.io/badge/Launch%20App-Printplaner-green?style=for-the-badge&logo=googlechrome&logoColor=white)](https://hmnxprints.github.io/Printplaner/)
 [![Download Files](https://img.shields.io/badge/Download-ZIP%20Archive-blue?style=for-the-badge&logo=github&logoColor=white)](https://github.com/HMNXPrints/Printplaner/archive/refs/heads/main.zip)
@@ -15,6 +16,7 @@ Printplaner is a browser-based utility to modify `.gcode.3mf` files. It allows y
 - **Multi-Plate Support:** Easily configure global execution times or toggle individual settings for multi-plate 3MF files independently.
 - **Runs Locally:** 100% local file processing via JavaScript using `JSZip`. Your data never leaves your computer.
 - **Language Support:** Full multi-language support for both **German (DE)** and **English (EN)**.
+- **Compatibility:** Tested and optimized for **Bambu Lab Slicer** and **Bambu Lab Printer**.
 
 ---
 
