@@ -30,6 +30,12 @@ const translations = {
         // Kompletter HTML Guide für Deutsch (Anleitung)
         guideHTML: `
             <div class="guide-content" style="line-height: 1.6; margin-bottom: 20px;">
+
+<div style="margin-bottom: 25px; padding: 15px; background: rgba(234, 179, 8, 0.1); border-left: 4px solid #eab308; border-radius: 6px; color: var(--text-color);">
+            <strong style="color: #eab308; display: block; margin-bottom: 5px;">⚠️ WICHTIG:</strong>
+            <span style="color: #ffffff;">Printplaner wurde nur mit Bambu Lab Slicer und Bambu Lab Druckern getestet. Andere Slicersoftware und Druckermodelle funktionieren möglicherweise nicht.</span>
+        </div>
+
                 <h2 style="margin-top: 0; margin-bottom: 20px;">Schritt-für-Schritt Anleitung</h2>
                 
                 <ul style="list-style-type: none; padding-left: 0; margin-bottom: 25px;">
@@ -121,6 +127,12 @@ const translations = {
         // Kompletter HTML Guide für Englisch (Anleitung)
         guideHTML: `
             <div class="guide-content" style="line-height: 1.6; margin-bottom: 20px;">
+
+<div style="margin-bottom: 25px; padding: 15px; background: rgba(234, 179, 8, 0.1); border-left: 4px solid #eab308; border-radius: 6px; color: var(--text-color);">
+    <strong style="color: #eab308; display: block; margin-bottom: 5px;">⚠️ IMPORTANT:</strong>
+    <span style="color: #ffffff;">Printplaner was only tested with Bambu Lab Slicer and Bambu Lab printers. Other slicer software and printer models may not work.</span>
+</div>
+
                 <h2 style="margin-top: 0; margin-bottom: 20px;">Step-by-Step Guide</h2>
                 
                 <ul style="list-style-type: none; padding-left: 0; margin-bottom: 25px;">
