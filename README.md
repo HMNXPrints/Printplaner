@@ -64,7 +64,7 @@ Feel free to open an issue or submit a pull request if you find bugs, have ideas
 
 This project is licensed under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license with a special exception for developer contributions:
 
-- **Attribution (BY):** You must give appropriate credit to the original author (HMNX).
+- **Attribution (BY):** You must give appropriate credit to the original author (HMNXPrints).
 - **Non-Commercial (NC):** You may not use this material for commercial purposes.
 - **No Derivatives (ND):** You may not distribute modified versions of the software.
 - **Special Exception:** Modifying the source code is explicitly permitted **solely** for the purpose of submitting bug fixes, improvements, or pull requests back to this original repository.
