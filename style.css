@@ -1,0 +1,783 @@
+/* ==========================================================================
+   1. GLOBAL STYLES & VARIABLEN
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scrollbar-gutter: stable;
+}
+
+:root {
+    --bg-color: #0f1115;
+    --card-bg: #1a1d24;
+    --text-color: #ffffff;
+    --subtitle-color: #a0a7b5;
+    --input-bg: #252933;
+    --input-border: #3b4252;
+    --plate-card-bg: #252933;
+    --plate-card-border: #343b4a;
+    --label-color: #b7c0d6;
+    --gradient-start: #1f2330;
+    --gradient-end: #171a22;
+    --datetime-border: #2f3545;
+    --calendar-invert: invert(1);
+}
+
+body.light-mode {
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-color: #1a1d24;
+    --subtitle-color: #64748b;
+    --input-bg: #f8fafc;
+    --input-border: #cbd5e1;
+    --plate-card-bg: #f1f5f9;
+    --plate-card-border: #e2e8f0;
+    --label-color: #475569;
+    --gradient-start: #ffffff;
+    --gradient-end: #f8fafc;
+    --datetime-border: #cbd5e1;
+    --calendar-invert: invert(0);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ==========================================================================
+   2. HAUPTKARTE & HEADER (BREITE KORRIGIERT)
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 900px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    transition: background 0.2s ease;
+    position: relative;
+    
+    /* ÄNDERE DIESE BEIDEN ZEILEN: */
+    width: 100%;        /* Erlaubt der Kachel, flexibel zu schrumpfen */
+    max-width: 900px;   /* Begrenzt die Kachel auf großen Monitoren nach rechts */
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+h1 {
+    margin: 0; /* Entfernt jeglichen Standard-Abstand, damit es exakt oben ansetzt */
+    font-size: 32px;
+    line-height: 1.2; /* Verhindert, dass die unsichtbare Zeilenhöhe den Text nach unten drückt */
+}
+
+.header-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.subtitle {
+    color: var(--subtitle-color);
+    margin-bottom: 30px;
+    font-size: 16px;
+    margin-top: 0;
+}
+
+.tab-divider {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: var(--input-border);
+    margin-top: -15px;     /* Weiter nach oben gerückt (näher an die Buttons) */
+    margin-bottom: 20px;  /* Leicht verringert für einen kompakteren Übergang */
+    clear: both;
+    opacity: 0.6;
+}
+
+/* ==========================================================================
+   3. UPLOAD AREA
+   ========================================================================== */
+.upload-area {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+#fileInput {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    background: var(--input-bg);
+    border: 1px solid var(--datetime-border);
+    border-radius: 12px;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.custom-file-upload:hover {
+    border-color: #4f8cff;
+    background: var(--input-bg);
+}
+
+/* Status wenn Datei geladen */
+.file-status-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 18px;
+    background: var(--input-bg);
+    border: 1px solid #4f8cff;
+    border-radius: 12px;
+    color: var(--text-color);
+    transition: 0.2s ease;
+}
+
+.file-name-display {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
+    color: var(--text-color);
+}
+
+.file-status-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.action-btn {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.remove-btn:hover {
+    border-color: #ff4f4f;
+    background: rgba(255, 79, 79, 0.1);
+}
+
+.change-btn:hover {
+    border-color: #4f8cff;
+    background: rgba(79, 140, 255, 0.1);
+}
+
+/* ==========================================================================
+   4. GLOBAL TIME & OPTIONS
+   ========================================================================== */
+#multiPlateOptions {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.global-settings-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    align-items: flex-end;
+}
+
+.time-input-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.section-label {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--subtitle-color);
+    margin-bottom: 5px;
+}
+
+input[type="datetime-local"] {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 15px;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: var(--calendar-invert);
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+input[type="datetime-local"]:focus,
+input[type="datetime-local"].has-value {
+    border-color: #4f8cff;
+}
+
+/* Umschaltflächen / Toggle Tasten */
+.vibration-toggle-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    /* NEU: Macht die Kachel breiter und dehnt den Button aus */
+    min-width: 160px;
+    align-items: stretch;
+}
+
+.toggle-btn {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+/* NEU: Überschreibt die feste Breite von 46px global für den gestreckten Button */
+.vibration-toggle-container .toggle-btn {
+    width: 100%;
+}
+
+.toggle-btn .icon-active {
+    color: #22c55e;
+}
+
+.toggle-btn .icon-skipped {
+    color: #ef4444;
+}
+
+.toggle-btn:hover {
+    border-color: #4f8cff;
+    background: var(--input-border);
+}
+
+/* ==========================================================================
+   5. PLATE CARDS (DYNAMISCH)
+   ========================================================================== */
+#platesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.plate-card {
+    background: var(--plate-card-bg);
+    border: 1px solid var(--plate-card-border);
+    border-radius: 14px;
+    padding: 16px;
+    transition: all 0.2s ease;
+}
+
+.plate-card.active-plate {
+    border: 1px solid #4f8cff; /* Direkt das voll deckende Blau nutzen */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.plate-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.plate-info-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.plate-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.plate-top label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.plate-top input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.individual-time {
+    margin-top: 4px;
+    animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.plate-settings-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.plate-time-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.plate-vibration-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    /* NEU: Verbreitert die Kachel bei individueller Auswahl */
+    min-width: 130px;
+    align-items: stretch;
+}
+
+.plate-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--subtitle-color);
+    margin-bottom: 6px;
+}
+
+.plate-settings-row input[type="datetime-local"] {
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.plate-settings-row .toggle-btn {
+    width: 100%;
+    height: 41px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* NEU: Überschreibt die feste Breite von 38px in den einzelnen Kacheln */
+.plate-vibration-container .toggle-btn {
+    width: 100%;
+}
+
+/* Bild Vorschau rechts */
+.plate-image-side {
+    flex-shrink: 0;
+}
+
+.plate-preview-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--plate-card-border);
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    background: transparent;
+}
+
+.plate-preview-img:hover {
+    transform: scale(1.05);
+    border-color: #4f8cff;
+}
+
+/* ==========================================================================
+   6. VERARBEITUNGS & STEUERUNGS BUTTONS (ÜBERARBEITET)
+   ========================================================================== */
+
+/* Gemeinsame Basis für alle runden Buttons (Header & Tabs) */
+.theme-btn {
+    width: auto;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+    border-radius: 24px;       
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+/* Hover-Effekt für alle: leicht vergrößern, blaue Umrandung, kein Hochgleiten */
+.theme-btn:hover {
+    transform: scale(1.05);
+    border-color: #4f8cff;
+    background: var(--input-bg);
+}
+
+/* Spezifisch für die Buttons oben rechts (Sprache / Light-Dark-Mode) */
+.header-btn {
+    padding: 8px 16px;         
+    font-size: 14px;           
+    font-weight: normal;       
+}
+
+/* Spezifisch für die drei Tab-Reiter Buttons */
+.tab-btn {
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: bold;         
+    color: var(--subtitle-color) !important;
+}
+
+/* Design für den aktiven Tab-Zustand (Blau) */
+.tab-btn.active {
+    background: #4f8cff !important;
+    border-color: #4f8cff !important;
+    color: #ffffff !important;
+}
+
+.tab-btn.active:hover {
+    transform: scale(1.05);
+    opacity: 0.95;
+}
+
+/* Großer Aktionsbutton unten ("Datei bearbeiten") */
+#processBtn {
+    width: 100%;
+    padding: 15px;
+    background: #4f8cff;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: none;
+}
+
+#processBtn:hover {
+    background: #3b79e6;
+    transform: scale(1.02);
+    box-shadow: 0 0 12px rgba(79, 140, 255, 0.4);
+}
+
+#processBtn:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   SOCIAL MEDIA & WIDGET INTEGRATION FOR TAB BAR
+   ========================================================================== */
+
+/* Die umschließende Gruppe steuert den Abstand und schiebt alles nach ganz rechts */
+.social-buttons-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;          /* Abstand zwischen Ko-fi, MakerWorld und Instagram */
+    margin-left: auto;  /* Schiebt die gesamte Gruppe an den rechten Rand */
+    vertical-align: middle;
+}
+
+/* Richtet das Ko-fi Widget in der Gruppe aus */
+.kofi-tab-wrapper {
+    display: inline-block;
+    margin-right: -10px;
+}
+
+/* Der blaue Ko-fi Button */
+.kofi-tab-wrapper .kofi-button {
+    height: 38px !important;
+    padding: 0 22px !important;
+    background-color: #4f8cff !important;
+    border: 1px solid #3b76e1 !important;
+    border-radius: 24px !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.kofi-tab-wrapper .kofi-button .kofitext {
+    color: #ffffff !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+}
+
+.kofi-tab-wrapper .kofi-img {
+    margin-right: 8px !important;
+    height: 16px !important;
+    width: auto !important;
+}
+
+/* Hover für den Ko-fi Button (bleibt bei 1.02) */
+.kofi-tab-wrapper .kofi-button:hover {
+    background-color: #4f8cff !important;
+    transform: scale(1.02);
+    opacity: 1 !important;
+}
+
+/* NEU: Gemeinsames Design für MakerWorld und Instagram Buttons */
+.social-nav-btn {
+    height: 38px;
+    width: 38px;         /* Macht den Button perfekt quadratisch/rund */
+    background-color: #4f8cff;
+    border: 1px solid #3b76e1;
+    border-radius: 50%;   /* Erzwingt die perfekt kreisrunde Form */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;       /* Setzt die SVG-Logofarbe auf Weiß */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Steuert die Größe der weißen SVGs im Inneren der runden Buttons */
+.social-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Hover-Verhalten für MakerWorld und Instagram (Vergrößerung 1.02, bleibt blau) */
+.social-nav-btn:hover {
+    transform: scale(1.05);
+    background-color: #4f8cff; /* Bleibt im exakt selben Blau */
+    border-color: #3b76e1;     /* Bleibt im exakt selben Rahmenblau */
+    color: #ffffff;            /* Logo bleibt weiß */
+}
+
+/* ==========================================================================
+   6.5 INFOSEITEN TEXTSTILE (TABS ANLEITUNG / FUNKTIONSWEISE - NEU)
+   ========================================================================== */
+.tab-content h2 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+/* Container & Textelemente für Anleitung und Funktionsweise komplett in stimmigem Grau */
+.tab-content p,
+.tab-content ol,
+.tab-content ul,
+.tab-content li {
+    color: var(--subtitle-color); /* Angenehmer, dezenter Grauton */
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.tab-content code {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+    color: #4f8cff; /* Hebt Codebausteine dezent in Blau hervor */
+}
+
+.tab-content strong {
+    color: var(--text-color); /* Überschriften innerhalb des Textes bleiben gut lesbar */
+}
+
+/* ==========================================================================
+   6.7 DYNAMISCHE HOVER-EFFEKTE FÜR VIBRATIONSTEST-BUTTONS (NEU)
+   ========================================================================== */
+
+/* Wenn das grüne HÄKCHEN aktiv ist -> Leicht grüner Hintergrund + grüner Rand beim Hovern */
+.toggle-btn:has(.icon-active):hover {
+    border-color: #22c55e !important;
+    background-color: rgba(34, 197, 94, 0.1) !important;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.15);
+}
+
+/* Wenn das rote KREUZ aktiv ist -> Leicht roter Hintergrund + roter Rand beim Hovern */
+.toggle-btn:has(.icon-skipped):hover {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.15);
+}
+
+/* ==========================================================================
+   7. LIGHTBOX (BILD-GROSSANSICHT)
+   ========================================================================== */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 12, 16, 0.9);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+
+.lightbox-content {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: none;
+    cursor: zoom-out !important;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+    user-select: none;
+}
+
+.lightbox-close:hover {
+    color: #ff4f4f;
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   8. UTILITIES & MEDIA QUERIES
+   ========================================================================== */
+.hidden {
+    display: none !important;
+}
+
+.info {
+    color: var(--subtitle-color);
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 20px;
+    }
+    .plate-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .plate-content-wrapper {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+    .plate-image-side {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    .plate-preview-img {
+        width: 100%;
+        max-width: 200px;
+        height: 150px;
+    }
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .header-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* ==========================================================================
+   BUTTON ANIMATION (PROCESS SUCCESS)
+   ========================================================================== */
+#processBtn {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Klick-Effekt (Button wird kurz minimal kleiner) */
+#processBtn:active {
+    transform: scale(0.96);
+}
+
+/* Erfolgs-Zustand */
+#processBtn.success {
+    background-color: #22c55e !important; /* Schönes sattes Grün */
+    color: #ffffff !important;
+    border-color: #16a34a !important;
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+    transform: scale(1);
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printplaner</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="jszip.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <div class="card-header">
+            <h1 data-i18n="title">Printplaner - Plane deine 3D-Drucke!</h1>
+            <div class="header-controls">
+                <button id="langToggle" class="theme-btn header-btn">EN</button>
+                <button id="themeToggle" class="theme-btn header-btn" aria-label="Toggle Theme">☀️ Light Mode</button>
+            </div>
+        </div>
+
+        <p class="subtitle" data-i18n="subtitle">
+            Wähle deine .gcode.3mf Datei aus, um zu starten
+        </p>
+
+<div class="tab-navigation" style="display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; align-items: center;">
+    <button class="theme-btn tab-btn active" data-tab="Planer" data-i18n="tabPlaner">Planer</button>
+    <button class="theme-btn tab-btn" data-tab="Anleitung" data-i18n="tabAnleitung">Anleitung</button>
+    <button class="theme-btn tab-btn" data-tab="Funktion" data-i18n="tabFunktion">Funktionsweise</button>
+    
+    <div class="social-buttons-group">
+        
+        <div id="kofiWidgetContainer" class="kofi-tab-wrapper">
+            <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+            <script type='text/javascript'>
+                kofiwidget2.init('Leave a Tip', '#72a4f2', 'S4R8201YO9');
+                kofiwidget2.draw();
+            </script>
+        </div>
+
+        <a href="https://makerworld.com/de/@HUMNX/upload" target="_blank" class="social-nav-btn" title="MakerWorld/HMNX">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L3.5 6.92v9.83L12 21.67l8.5-4.92V6.92L12 2zm6.65 13.7l-6.65 3.85-6.65-3.85V8.15l6.65-3.85 6.65 3.85v7.55zM12 7.15l-4.15 2.4v4.8l4.15 2.4 4.15-2.4v-4.8L12 7.15z"/>
+            </svg>
+        </a>
+
+        <a href="https://www.instagram.com/hmnx.prints" target="_blank" class="social-nav-btn" title="Instagram/HMNX.Prints">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+        </a>
+
+    </div>
+</div>
+
+<div class="tab-divider"></div>
+
+        <div id="tabContentPlaner" class="tab-content">
+            <div class="upload-area">
+                <label for="fileInput" id="uploadLabel" class="custom-file-upload">
+                    <span>📁</span> <span data-i18n="uploadText">Datei auswählen...</span>
+                </label>
+                
+                <div id="fileStatusContainer" class="file-status-container hidden">
+                    <span id="fileNameDisplay" class="file-name-display"></span>
+                    <div class="file-status-actions">
+                        <button id="removeFileBtn" class="action-btn remove-btn" title="Datei entfernen">❌</button>
+                        <label for="fileInput" id="changeFileLabel" class="action-btn change-btn" title="Andere Datei auswählen">📁</label>
+                    </div>
+                </div>
+
+                <input type="file" id="fileInput" accept=".gcode.3mf">
+            </div>
+
+            <div id="plateSection" class="hidden">
+                <div id="multiPlateOptions" class="hidden">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="individualMode">
+                        <span data-i18n="individualMode">Individuelle Zeiten verwenden</span>
+                    </label>
+                </div>
+
+                <div class="global-settings-row">
+                    <div class="time-input-container" id="globalTimeContainer">
+                        <label class="section-label" data-i18n="startTime">Startzeit</label>
+                        <input type="datetime-local" id="globalTime">
+                    </div>
+                    <div class="vibration-toggle-container">
+                        <label class="section-label" data-i18n="skipVibrationTitle">Vibrationstest</label>
+                        <button type="button" id="globalSkipVibrationBtn" class="toggle-btn hover-active">
+                            <span class="icon-active">✔</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="platesContainer"></div>
+
+                <button id="processBtn" data-i18n="processBtn">
+                    Datei bearbeiten
+                </button>
+            </div>
+        </div>
+
+<div id="tabContentAnleitung" class="tab-content hidden"></div>
+
+<div id="tabContentFunktion" class="tab-content hidden"></div>
+
+    </div>
+    </div>
+<div id="imageLightbox" class="lightbox hidden">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightboxImg" src="" alt="Großansicht">
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
