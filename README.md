@@ -22,6 +22,9 @@ While optimized for Bambu Lab, it may also work with other slicers and printer m
 
 ## How to Use (Step-by-Step Guide)
 
+⚠️ **IMPORTANT:**
+Printplaner was only tested with Bambu Lab Slicer and Bambu Lab printers. Other slicer software and printer models may not work.
+
 1. **Prepare file:**
 Configure all settings in your slicer software and either slice the current print plate individually (Slice plate) or select Slice all from the dropdown menu.
 Then click the arrow to the right of the export button and select Export all sliced files to generate the required .gcode.3mf file.
