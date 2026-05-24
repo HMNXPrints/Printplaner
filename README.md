@@ -2,6 +2,10 @@
 
 Printplaner is a browser-based utility to modify `.gcode.3mf` files. It allows you to easily inject a custom start delay and turn off the vibration test without uploading files to any external server.
 
+[![Open in Browser](https://img.shields.io/badge/Launch%20App-Printplaner-green?style=for-the-badge&logo=googlechrome&logoColor=white)](https://hmnxprints.github.io/Printplaner/)
+[![Download Files](https://img.shields.io/badge/Download-ZIP%20Archive-blue?style=for-the-badge&logo=github&logoColor=white)](https://github.com/HMNXPrints/Printplaner/archive/refs/heads/main.zip)
+[![Support on Ko-fi](https://img.shields.io/badge/Support-Ko--fi-ff5e5b?style=for-the-badge&logo=kofi&logoColor=white)](https://ko-fi.com/HMNXPrints)
+
 ---
 
 ## Key Features
@@ -45,7 +49,7 @@ You can run Printplaner using one of the following methods:
 
 ### Method A: Live via Web (Recommended)
 You can access the live version directly via GitHub Pages:  
-🔗 **[Insert GitHub Pages Link here once available]**
+🔗 **[Launch Printplaner Web App](https://hmnxprints.github.io/Printplaner/)**
 
 ### Method B: Run Locally
 Since this is a standard frontend web application, no installation or local server environment is required:
